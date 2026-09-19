@@ -1,0 +1,2 @@
+# Let the active local session read this phone's touchscreen for lisgd gestures.
+ACTION=="add|change", SUBSYSTEM=="input", KERNEL=="event[0-9]*", ATTRS{name}=="MELFAS MMS152 Touchscreen", TAG+="uaccess"

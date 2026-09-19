@@ -1,0 +1,53 @@
+#!/bin/sh
+# SPDX-License-Identifier: AGPL-3.0-only
+# boot-deploy's documented postprocess receives the generated initramfs path.
+# Repack only its Android v0 ramdisk; keep the kernel, DTB and boot arguments.
+set -eu
+exec python3 - "$1" <<'PY'
+from pathlib import Path
+import hashlib
+import lzma
+import os
+import struct
+import sys
+
+ramdisk_path = Path(sys.argv[1]).resolve(strict=True)
+boot_path = ramdisk_path.parent / 'boot.img'
+image = boot_path.read_bytes()
+assert image[:8] == b'ANDROID!', 'Expected Android boot image'
+ksize, kaddr, rsize, raddr, ssize, saddr, tags, page, version, reserved = struct.unpack_from('<10I', image, 8)
+assert (page, version, ssize, reserved) == (2048, 0, 0, 0), 'Unsupported boot header'
+assert (kaddr, raddr, tags) == (0x40008000, 0x41000000, 0x40000100), 'Unexpected Note2 load addresses'
+align = lambda length: (length + page - 1) // page * page
+kernel = image[page:page + ksize]
+offset = page + align(ksize)
+old_ramdisk = image[offset:offset + rsize]
+assert len(kernel) == ksize and old_ramdisk == ramdisk_path.read_bytes()
+def digest_for(ramdisk):
+    digest = hashlib.sha1()
+    for section in (kernel, ramdisk, b''):
+        digest.update(section)
+        digest.update(struct.pack('<I', len(section)))
+    return digest.digest() + bytes(12)
+assert image[576:608] == digest_for(old_ramdisk), 'Input boot checksum mismatch'
+contents = lzma.decompress(old_ramdisk)
+ramdisk = lzma.compress(contents, format=lzma.FORMAT_XZ,
+                       check=lzma.CHECK_CRC32, preset=9 | lzma.PRESET_EXTREME)
+assert lzma.decompress(ramdisk) == contents
+header = bytearray(image[:page])
+struct.pack_into('<I', header, 16, len(ramdisk))
+header[576:608] = digest_for(ramdisk)
+pad = lambda data: data + bytes(align(len(data)) - len(data))
+result = bytes(header) + pad(kernel) + pad(ramdisk)
+if len(result) > 8388608:
+    raise SystemExit(f'Note2 BOOT too large after compression: {len(result)} > 8388608')
+for path, data in ((ramdisk_path, ramdisk), (boot_path, result)):
+    temporary = path.with_name(path.name + '.note2-fit')
+    with temporary.open('xb') as stream:
+        stream.write(data)
+        stream.flush()
+        os.fsync(stream.fileno())
+    os.chmod(temporary, path.stat().st_mode & 0o777)
+    os.replace(temporary, path)
+print(f'Note2 BOOT fits: {len(result)} / 8388608 bytes; kernel/DTB unchanged')
+PY

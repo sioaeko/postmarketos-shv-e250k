@@ -1,0 +1,5 @@
+{
+  "regular_source_files_compared": 94793,
+  "comparison": "upstream 7.2.6 + three release patches + exact .config versus working build tree",
+  "mismatches": []
+}

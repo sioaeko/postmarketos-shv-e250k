@@ -1,0 +1,12 @@
+/build/
+/dist/
+__pycache__/
+*.pyc
+*.apk
+*.img
+*.tar.*
+*.rsa
+*.pem
+id_*
+*.key
+*.nmconnection

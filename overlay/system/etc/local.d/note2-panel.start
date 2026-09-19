@@ -1,0 +1,8 @@
+#!/bin/sh
+# SPDX-License-Identifier: AGPL-3.0-only
+# SHV-E250K: zero brightness caused washed-out panel colors in testing.
+# Use the verified initial level; manual brightness adjustment remains available.
+p=/sys/class/backlight/panel
+if [ -w "$p/brightness" ] && [ "$(cat "$p/max_brightness")" = 32 ]; then
+    printf '20\n' > "$p/brightness"
+fi

@@ -1,0 +1,35 @@
+#!/bin/sh
+# SPDX-License-Identifier: AGPL-3.0-only
+# Note2 capacitive menu/back keys and the physical home key.
+sxmo_state.sh is_locked && exit 0
+case "$1" in
+    menu)
+        if sxmo_dmenu.sh isopen; then
+            sxmo_dmenu.sh close
+        else
+            sxmo_appmenu.sh
+        fi
+        ;;
+    home)
+        sxmo_dmenu.sh close
+        sxmo_keyboard.sh close
+        # Applications can be launched while the home workspace is visible.
+        # Keep them running on workspace 1 before showing the empty desktop.
+        for container in $(swaymsg -r -t get_tree | jq -r '
+            recurse(.nodes[]?, .floating_nodes[]?) |
+            select(.type == "workspace" and .name == "0:home") |
+            (.nodes[]?, .floating_nodes[]?) | .id'); do
+            swaymsg -q "[con_id=$container] move container to workspace number 1"
+        done
+        swaymsg -q workspace '0:home'
+        ;;
+    close)
+        if sxmo_dmenu.sh isopen; then
+            sxmo_dmenu.sh close
+        elif sxmo_keyboard.sh isopen; then
+            sxmo_keyboard.sh close
+        else
+            sxmo_killwindow.sh
+        fi
+        ;;
+esac

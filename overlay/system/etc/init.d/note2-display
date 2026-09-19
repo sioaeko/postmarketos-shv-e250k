@@ -1,0 +1,76 @@
+#!/sbin/openrc-run
+# SPDX-License-Identifier: AGPL-3.0-only
+description="Note2 display after base system and SSH startup"
+: "${minimum_uptime:=60}"
+
+depend() {
+    need localmount sshd
+    use networkmanager
+    after udev-settle
+    before greetd
+}
+
+display_log() {
+    local uptime rest boot_id
+    read -r uptime rest < /proc/uptime
+    boot_id=$(cat /proc/sys/kernel/random/boot_id)
+    printf '%s uptime=%s %s\n' "$boot_id" "$uptime" "$*" >> /var/log/note2-display.log
+    printf '<6>NOTE2-LATE-DISPLAY uptime=%s %s\n' "$uptime" "$*" > /dev/kmsg
+}
+
+start() {
+    local uptime rest remaining connector tries ready
+    ebegin "Starting Note2 display after SSH and uptime ${minimum_uptime}s"
+    display_log "waiting; sshd already started"
+    read -r uptime rest < /proc/uptime
+    remaining=$((minimum_uptime - ${uptime%%.*}))
+    if [ "$remaining" -gt 0 ]; then
+        sleep "$remaining"
+    fi
+    display_log "loading exynosdrm"
+    if ! timeout 30 modprobe exynosdrm; then
+        display_log "exynosdrm load failed"
+        eend 1
+        return 1
+    fi
+    if [ -n "$(cat /sys/module/drm_client_lib/parameters/active)" ]; then
+        display_log "unexpected kernel DRM client enabled"
+        eend 1
+        return 1
+    fi
+    tries=0
+    ready=no
+    while [ "$tries" -lt 10 ]; do
+        for connector in /sys/class/drm/card*-DSI-1; do
+            # A fixed DSI panel reports unknown before userspace probes modes.
+            if [ -r "$connector/enabled" ] &&
+               [ -w /sys/class/backlight/panel/brightness ]; then
+                ready=yes
+                break
+            fi
+        done
+        [ "$ready" = yes ] && break
+        tries=$((tries + 1))
+        sleep 1
+    done
+    if [ "$ready" != yes ]; then
+        display_log "panel connector not ready"
+        eend 1
+        return 1
+    fi
+    # Cache the selected brightness before greetd can activate the panel.
+    # The panel1 kernel restores this gamma in prepare, before DISPLAY_ON.
+    if [ "$(cat /sys/class/backlight/panel/max_brightness)" != 32 ] ||
+       ! printf '20\n' > /sys/class/backlight/panel/brightness; then
+        display_log "initial panel brightness failed"
+        eend 1
+        return 1
+    fi
+    display_log "brightness 20 cached; allowing GUI startup"
+    eend 0
+}
+
+stop() {
+    # Keep the embedded DRM driver loaded until the kernel shuts down.
+    return 0
+}

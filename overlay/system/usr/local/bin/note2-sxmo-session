@@ -1,0 +1,9 @@
+#!/bin/sh
+# SPDX-License-Identifier: AGPL-3.0-only
+set -eu
+state_dir=${XDG_STATE_HOME:-"$HOME/.local/state"}
+cache_dir=${XDG_CACHE_HOME:-"$HOME/.cache"}
+mkdir -p "$state_dir" "$cache_dir/sxmo"
+# Keep the phone reachable over SSH when its display is off.
+touch "$cache_dir/sxmo/sxmo.nosuspend"
+exec /usr/bin/sxmo_swayinit.sh >>"$state_dir/note2-sxmo-session.log" 2>&1

@@ -1,0 +1,17 @@
+--- a/drivers/gpu/drm/panel/panel-samsung-s6evr02.c
++++ b/drivers/gpu/drm/panel/panel-samsung-s6evr02.c
+@@ -510,6 +510,14 @@
+ 	dev_info(ctx->dev, "NOTE2-DISP panel-init: begin\n");
+ 	s6evr02_panel_init(ctx);
+ 	dev_info(ctx->dev, "NOTE2-DISP panel-init: end rc=%d\n", ctx->error);
++	/*
++	 * Reset and panel_init discard the selected gamma/AID/ACL/ELVSS.
++	 * Restore the cached brightness before the panel becomes visible, even
++	 * when the backlight level has not changed since the previous prepare.
++	 */
++	s6evr02_brightness_set(ctx);
++	dev_info(ctx->dev, "NOTE2-DISP panel-brightness: level=%u rc=%d\n",
++		 ctx->brightness, ctx->error);
+ 	s6evr02_dcs_write_seq_static(ctx, MIPI_DCS_SET_DISPLAY_ON);
+ }
+ 

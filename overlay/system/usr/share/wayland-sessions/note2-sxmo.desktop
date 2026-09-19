@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=Sxmo (Note2)
+Comment=Lightweight Note2 desktop with persistent SSH access
+Exec=/usr/local/bin/note2-sxmo-session
+Terminal=false
+Type=Application

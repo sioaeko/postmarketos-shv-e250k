@@ -1,0 +1,50 @@
+{
+  "tested_model": "KT Samsung Galaxy Note II SHV-E250K",
+  "tested_panel": "S6EVR02",
+  "kernel_release": "7.2.6-postmarketos-exynos4-panel1",
+  "build_version": "2-postmarketOS",
+  "compiler": "clang 23.1.1",
+  "target_arch": "armv7",
+  "target_dtb": "exynos4412-n7105-s6evr02.dtb",
+  "upstream": {
+    "version": "7.2.6",
+    "url": "https://cdn.kernel.org/pub/linux/kernel/v7.x/linux-7.2.6.tar.xz",
+    "sha256": "039aef84f2b0994aeda3f4fcfc3d02ec9d7a9bbb9020ea264c43f446c860f606"
+  },
+  "exynos4_base": {
+    "url": "https://gitlab.com/exynos4-mainline/linux",
+    "ref": "v7.1.1-exynos4",
+    "commit": "3b51b9a62678973804c61ad66fffa10eba7d0fd8"
+  },
+  "pmaports": {
+    "commit": "3b498d535550325163969b7f41695219983ae5de",
+    "path": "device/archived/device-samsung-t0lte",
+    "device_package": "6-r0"
+  },
+  "patches": [
+    {
+      "file": "kernel/patches/0001-exynos4-note2-port.patch",
+      "sha256": "36a5aea2ffa6fb08f081939d90227a2819cb07fe0de7203820b660d321c5c293"
+    },
+    {
+      "file": "kernel/patches/0002-s6evr02-restore-gamma-before-display-on.patch",
+      "sha256": "2e33724bec35da4328b00d1984ae386607799647be27c15368c88e6ebd170fd9"
+    },
+    {
+      "file": "kernel/patches/0003-remove-obsolete-n710x-dts.patch",
+      "sha256": "9083d0542904f752dfd5ad12fa903ecff0f7a41447d135dd5f3f9e9a59bffe73"
+    }
+  ],
+  "config_sha256": "686d37e76c2685c0db761d69c62e73a99610d2bd233e828c99173cca9570bb12",
+  "apk": {
+    "file": "linux-postmarketos-exynos4-7.2.6-r1.apk",
+    "bytes": 24121808,
+    "sha256": "a88fee4b41ebc8fce58a288b3897dfcb55b7b2654161d543e1fe7ca4d916938d"
+  },
+  "signing_public_key_sha256": "0e0c96a19d2611a44ed924f7adca7b36840c2f9a63416162595ff60392c55180",
+  "zimage_sha256": "f64b1dd8ac4548c7a2e4cc90ec848959218c39c87a3508472dda3af45e09bc86",
+  "dtb_sha256": "1ea134d08ad967a3b186832c992486e03148bdb2183031a165f6d6b17a4be580",
+  "rootfs_modules": 598,
+  "generic_boot_image_included": false,
+  "rootfs_image_included": false
+}

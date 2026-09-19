@@ -1,0 +1,11 @@
+#!/bin/sh
+# SPDX-License-Identifier: AGPL-3.0-only
+# Menu/back LEDs follow the Sxmo display state; no root helper is needed.
+case "${1:-on}" in
+    on) brightness=1 ;;
+    off) brightness=0 ;;
+    *) exit 2 ;;
+esac
+led=/sys/class/leds/tm2-touchkey/brightness
+[ -w "$led" ] || exit 0
+printf '%s\n' "$brightness" > "$led"
