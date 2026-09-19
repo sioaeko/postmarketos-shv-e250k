@@ -1,0 +1,13 @@
+<!-- SPDX-License-Identifier: CC0-1.0 -->
+<!-- Original contribution draft. Not submitted to the postmarketOS wiki. -->
+== KT SHV-E250K: experimental external port ==
+
+In September 2026, an external experimental port was reported on one KT SHV-E250K with a Samsung S6EVR02 panel. It uses the archived samsung-t0lte device package and a modified Exynos4 kernel based on Linux 7.2.6, with the kernel release <code>7.2.6-postmarketos-exynos4-panel1</code>.
+
+Wi-Fi SSH, Sxmo/Sway, simultaneous touchscreen and S Pen input, menu/home/back keys and touchkey illumination were tested on that installation. A panel patch restores cached gamma before DISPLAY_ON to address incorrect brightness/colors after display activation. The setup retains a 60-second late-display initialization workaround and disables automatic suspend to keep SSH reachable. Pen calibration was measured on the tested unit and may need adjustment on other units.
+
+This is an out-of-tree developer release, not an official postmarketOS package update or a generic installation image. A clean installation on another unit, other Note II variants/panels, telephony, camera, Bluetooth, audio and complete suspend/resume have not been validated by this work. It does not change the archived status of the upstream device package.
+
+* [https://github.com/sioaeko/postmarketos-shv-e250k Source, patches and runtime configuration]
+* [https://github.com/sioaeko/postmarketos-shv-e250k/blob/main/docs/VALIDATION.md Validation scope]
+* [https://github.com/sioaeko/postmarketos-shv-e250k/blob/main/kernel/patches/0002-s6evr02-restore-gamma-before-display-on.patch S6EVR02 gamma restoration patch]

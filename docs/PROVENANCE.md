@@ -18,3 +18,5 @@ The postmarketOS pmaports revision used was `3b498d535550325163969b7f41695219983
 Sxmo upstream hook scripts are AGPL-3.0-only, copyright Sxmo Contributors. Our hook wrappers call the installed default scripts and retain their configversion markers. The project's non-kernel scripts, runtime configs and documentation are distributed under AGPL-3.0-only; see [LICENSE](../LICENSE). Upstream code and assets retain their own licenses. We do not claim authorship of Linux, Exynos4 mainline, postmarketOS, Sxmo, firmware or browser projects.
 
 Firmware dependencies are obtained from their original packages. No extracted vendor firmware, device NVRAM, EFS data, private key, login credential, browser profile, personal wallpaper or personal disk image is included.
+
+Exception: `docs/wiki-update-draft.mediawiki` is an original CC0-1.0 contribution draft intended for the postmarketOS wiki, whose content uses CC BY-SA. It has not been submitted.
