@@ -1,0 +1,19 @@
+{
+  "date": "2026-09-20",
+  "corresponding_source_regular_files": 94793,
+  "source_mismatches": 0,
+  "syntax_checked_scripts": 16,
+  "apk_tools_version": "3.0.8-r0",
+  "apk_signature": "verified with published public key",
+  "fresh_offline_apk_install_matching_payload_files": 617,
+  "primary_initramfs_matching_modules": 23,
+  "extra_initramfs_matching_modules": 9,
+  "boot_packer_matches_private_reference": true,
+  "boot_packer_rejects_bad_zimage_dtb_uuid_and_oversize": true,
+  "boot_packer_cli_with_synthetic_uuids": "passed",
+  "boot_fit_matches_reference_contents": true,
+  "automatic_display_idle_seconds_observed": 600,
+  "screenoff_then_power_action_restores_touch_and_pen": true,
+  "full_clean_device_install_tested": false,
+  "publication_rebuilt_or_reflashed_kernel": false
+}

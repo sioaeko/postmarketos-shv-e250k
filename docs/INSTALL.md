@@ -12,6 +12,8 @@ Keep a tested recovery path and backups of BOOT, the boot filesystem and the mat
 
 Download the APK, corresponding source, `SHA256SUMS` and repository overlay from the **same release tag**. Check SHA-256 before use. The release binary is signed with the included public key:
 
+The binary uses the apk-tools v3 package format; package verification and a fresh offline `apk add --no-scripts` were checked with apk-tools 3.0.8. Older apk-tools v2 installations need a compatible packaging environment. `apk extract` 3.0.8 into a completely empty directory did not create intermediate directories in our check; use normal package installation in an offline target instead.
+
 ```sh
 sha256sum -c SHA256SUMS
 apk --keys-dir ./keys verify ./linux-postmarketos-exynos4-7.2.6-r1.apk
