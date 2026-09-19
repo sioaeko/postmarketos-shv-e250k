@@ -4,9 +4,21 @@
 
 KT 갤럭시 노트2에서 사용 중인 Linux 커널과 Sxmo 설정을 공개한 **실험판 포팅 프로젝트**입니다. Wi-Fi SSH 위주로 쓰면서 화면, 터치, S펜, 하드웨어 키를 함께 사용할 수 있도록 수정했습니다.
 
+![KT 갤럭시 노트2의 fastfetch 실제 출력: postmarketOS edge armv7l 및 Linux 7.2.6-postmarketos-exynos4-panel1](docs/images/note2-fastfetch.png)
+
+*기기 소유자가 제공한 실제 fastfetch 실행 화면입니다. GT-N7105 표기는 공유 장치 트리에서 나온 이름이며, 실제 기기는 KT SHV-E250K입니다.*
+
 **검증 기기: SHV-E250K 한 대, Samsung S6EVR02 패널.** GT-N7100/N7105, SHV-E250S/L 및 EA8061 패널은 이 릴리스로 검증하지 않았습니다. 커스텀 리커버리에 표시되는 모델명만으로 기종을 판단하면 안 됩니다.
 
 [실험판 다운로드](https://github.com/sioaeko/postmarketos-shv-e250k/releases) · [빌드](docs/BUILD.md) · [적용·복구](docs/INSTALL.md) · [설정](docs/USAGE.ko.md) · [변경 이력](CHANGELOG.md)
+
+## 실제 구동 화면
+
+같은 폰의 Sxmo/Sway에서 캡처한 원본 720×1280 화면입니다.
+
+| Sxmo 시스템 메뉴 | Firefox ESR 모바일 UI |
+| --- | --- |
+| <img src="docs/images/note2-sxmo.png" alt="노트2에서 열린 Sxmo 시스템 메뉴" width="300"> | <img src="docs/images/note2-firefox-mobile.png" alt="하단 탭과 주소창이 적용된 노트2의 Firefox 모바일 설정 화면" width="300"> |
 
 ## 이번 배포에 들어 있는 것
 

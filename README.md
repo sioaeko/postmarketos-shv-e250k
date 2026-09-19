@@ -4,9 +4,21 @@
 
 An **experimental Linux/postmarketOS port** for the Korean KT Galaxy Note II, focused on Wi-Fi SSH with a usable Sxmo desktop, touchscreen, S Pen and hardware keys.
 
+![Fastfetch on the tested KT Galaxy Note II, showing postmarketOS edge armv7l and Linux 7.2.6-postmarketos-exynos4-panel1](docs/images/note2-fastfetch.png)
+
+*Actual fastfetch output from the tested phone, provided by its owner. The GT-N7105 host label comes from the shared device tree; the physical device is a KT SHV-E250K.*
+
 **Tested hardware: one SHV-E250K with a Samsung S6EVR02 panel.** GT-N7100/N7105, SHV-E250S/L and EA8061 panels have not been validated with this release. A custom recovery's displayed model name is not reliable evidence of the actual variant.
 
 [Downloads](https://github.com/sioaeko/postmarketos-shv-e250k/releases) · [Build](docs/BUILD.md) · [Apply and recover](docs/INSTALL.md) · [Usage](docs/USAGE.md) · [Changelog](CHANGELOG.md)
+
+## On-device screenshots
+
+Actual 720×1280 compositor captures from the same phone running Sxmo/Sway.
+
+| Sxmo system menu | Firefox ESR with mobile-config-firefox |
+| --- | --- |
+| <img src="docs/images/note2-sxmo.png" alt="Sxmo system menu open on the Note2" width="300"> | <img src="docs/images/note2-firefox-mobile.png" alt="Firefox mobile settings with bottom tab and address bars on the Note2" width="300"> |
 
 ## What this release provides
 
